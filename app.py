@@ -178,17 +178,15 @@ rule29_dengue = ctrl.Rule(pain['No pain'] & temperature['Normal'] & hemorrhage['
                           appetite['Normal'] & muscle_weakness['Normal'] & difficult_breath['Low'], 
                           dengue['Mild'])
 
-rule30_dengue = ctrl.Rule(temperature['High Fever'] | (pain['Strong'] & hemorrhage['Medium'] & 
-                          appetite['None'] & muscle_weakness['Severe'] & difficult_breath['Severe']), 
+rule30_dengue = ctrl.Rule(temperature['High Fever'] & pain['Strong'] & hemorrhage['Medium'] & 
+                          appetite['None'] & muscle_weakness['Severe'] & difficult_breath['Severe'], 
                           dengue['Strong'])
 
-rule31_dengue = ctrl.Rule(temperature['Normal'] | (pain['Strong'] & hemorrhage['Medium'] & 
-                          appetite['None'] & muscle_weakness['Severe'] & difficult_breath['Severe']), 
+rule31_dengue = ctrl.Rule(temperature['Normal'] & pain['Strong'] & hemorrhage['Medium'] & 
+                          appetite['None'] & muscle_weakness['Severe'] & difficult_breath['Severe'], 
                           dengue['Mild'])
 
-rule32_dengue = ctrl.Rule(temperature['Low Fever'] | (pain['Strong'] & hemorrhage['Medium'] & 
-                          appetite['None'] & muscle_weakness['Severe'] & difficult_breath['Severe']), 
-                          dengue['Moderate'])
+
 
 # Create the fuzzy control system with the modified rules
 disease_ctrl = ctrl.ControlSystem([rule1_dengue, rule2_dengue, rule3_dengue, rule4_dengue, rule5_dengue, 
@@ -196,7 +194,7 @@ disease_ctrl = ctrl.ControlSystem([rule1_dengue, rule2_dengue, rule3_dengue, rul
                                    rule11_dengue, rule12_dengue, rule13_dengue, rule14_dengue, rule15_dengue, 
                                    rule16_dengue, rule17_dengue, rule18_dengue, rule19_dengue, rule20_dengue, 
                                    rule21_dengue, rule22_dengue, rule23_dengue, rule24_dengue, rule25_dengue, 
-                                   rule26_dengue, rule27_dengue, rule28_dengue, rule29_dengue, rule30_dengue,rule31_dengue,rule32_dengue])
+                                   rule26_dengue, rule27_dengue, rule28_dengue, rule29_dengue, rule30_dengue,rule31_dengue])
 disease_sim = ctrl.ControlSystemSimulation(disease_ctrl)
 
 

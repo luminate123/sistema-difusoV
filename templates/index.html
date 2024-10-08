@@ -94,7 +94,7 @@
 
                 // Show the risk levels for all diseases
                 document.getElementById('result').innerHTML = `
-                    <p><strong>Dengue Risk:</strong> ${data.disease_risks.dengue_risk} %</p>
+                    <p><strong>Probabilidad de dengue:</strong> ${data.disease_risks.dengue_risk} %</p>
                 `;
 
             } catch (error) {
@@ -123,7 +123,7 @@
             <label for="muscle_weakness">Muscle Weakness (0-10):</label>
             <input type="number" id="muscle_weakness" name="muscle_weakness" min="0" max="10" required>
 
-            <label for="difficult_breath">Difficult Breathing (%):</label>
+            <label for="difficult_breath">Difficult Breathing (0-10):</label>
             <input type="number"  id="difficult_breath" name="difficult_breath" required>
 
             <button type="submit">Calculate Risk</button>
