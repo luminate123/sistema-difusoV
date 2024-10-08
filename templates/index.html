@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Risk Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+    <script>
+        async function calculateRisk(event) {
+            event.preventDefault();
+
+            // Get form data
+            const pain = parseInt(document.getElementById('pain').value);
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            const hemorrhage = parseInt(document.getElementById('hemorrhage').value);
+            const appetite = parseInt(document.getElementById('appetite').value);
+            const muscleWeakness = parseInt(document.getElementById('muscle_weakness').value);
+            const difficultBreath = parseFloat(document.getElementById('difficult_breath').value);
+
+            // Prepare the request data
+            const requestData = {
+                pain: pain,
+                temperature: temperature,
+                hemorrhage: hemorrhage,
+                appetite: appetite,
+                muscle_weakness: muscleWeakness,
+                difficult_breath: difficultBreath
+            };
+            console.log(requestData);
+
+            // Send POST request to Flask server
+            try {
+                const response = await fetch('http://127.0.0.1:5000/disease_risk', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData),
+                });
+                const data = await response.json();
+
+                // Show the risk levels for all diseases
+                document.getElementById('result').innerHTML = `
+                    <p><strong>Dengue Risk:</strong> ${data.disease_risks.dengue_risk} %</p>
+                `;
+
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error calculating risk';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Probabilidad de Dengue</h1>
+        <form onsubmit="calculateRisk(event)">
+            <label for="pain">Pain (0-10):</label>
+            <input type="number" id="pain" step="0.1" name="pain" min="0" max="10" required>
+
+            <label for="temperature">Temperature (°C):</label>
+            <input type="number" step="0.1" id="temperature" name="temperature" required>
+
+            <label for="hemorrhage">Hemorrhage (0-10):</label>
+            <input type="number" step="0.1" id="hemorrhage" name="hemorrhage" min="0" max="10" required>
+
+            <label for="appetite">Appetite (0-10):</label>
+            <input type="number" step="0.1" id="appetite" name="appetite" min="0" max="10" required>
+
+            <label for="muscle_weakness">Muscle Weakness (0-10):</label>
+            <input type="number" id="muscle_weakness" name="muscle_weakness" min="0" max="10" required>
+
+            <label for="difficult_breath">Difficult Breathing (%):</label>
+            <input type="number"  id="difficult_breath" name="difficult_breath" required>
+
+            <button type="submit">Calculate Risk</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+</body>
+
+</html>
